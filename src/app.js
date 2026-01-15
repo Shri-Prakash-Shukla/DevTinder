@@ -6,6 +6,7 @@ const User = require("./models/user.js")
 const userAuth = require("./middlewares/authentication")
 const authRouter = require("./routes/auth.js")
 const userRouter = require("./routes/user.js")
+const connectionRouter = require("./routes/connection.js")
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 app.use("/", authRouter);
 app.use("/", userRouter);
+app.use("/",connectionRouter);
 
 
 app.get("/stream",(req,res)=>{

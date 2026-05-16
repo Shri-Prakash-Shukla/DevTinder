@@ -24,7 +24,7 @@ authRouter.post("/login", async (req, res) => {
     const password = req.body.password;
     const user = await User.findOne({ emailId: emailId });
     if (!user) {
-      throw new Error("User not found");
+      throw new Error("Wrong Credential");
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
@@ -33,11 +33,14 @@ authRouter.post("/login", async (req, res) => {
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY);
 
-    res.cookie("token", token).send("Logged in successfully");
+    res.cookie("token", token).send({
+      "message" : "Logged in successfully",
+      "data" : user
+    });
   } catch (err) {
     res
       .status(400)
-      .send("Something went wrong while logging you in " + err.message);
+      .send(err.message);
   }
 });
 

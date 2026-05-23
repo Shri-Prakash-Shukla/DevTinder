@@ -31,9 +31,14 @@ authRouter.post("/login", async (req, res) => {
       throw new Error("Wrong Credential");
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY);
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
 
-    res.cookie("token", token).send({
+    res.cookie("token", token, {
+      maxAge: 1 * 24 * 60 * 60 * 1000,
+      httpOnly : true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict"
+    }).send({
       "message" : "Logged in successfully",
       "data" : user
     });
@@ -45,8 +50,12 @@ authRouter.post("/login", async (req, res) => {
 });
 
 authRouter.post("/logout", async (req, res) => {
-  res
-    .cookie("token", null, { expires: new Date(Date.now()) })
-    .send("Logout successfull");
+  res.clearCookie("token", {
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict" 
+    }).send({
+      message: "Logout successful"
+    });
 });
 module.exports = authRouter;

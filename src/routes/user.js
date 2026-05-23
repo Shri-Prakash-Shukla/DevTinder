@@ -24,9 +24,7 @@ userRouter.patch("/user", userAuth, async (req, res) => {
       "firstName",
       "lastName",
       "photoUrl",
-      "skills",
       "about",
-      "gender",
       "age",
     ];
     const isUpdateAllowed = Object.keys(req.body).every((val) =>
@@ -41,7 +39,7 @@ userRouter.patch("/user", userAuth, async (req, res) => {
     if (!user) {
       return res.send("No such user exist");
     }
-    res.send("User info updated successfully ");
+    res.json(user);
   } catch (err) {
     res.send("Some error occured while updating user details " + err.message);
   }

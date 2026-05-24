@@ -35,11 +35,15 @@ userRouter.patch("/user", userAuth, async (req, res) => {
     }
     const user = await User.findByIdAndUpdate(_id, req.body, {
       runValidators: true,
+      new : true
     });
     if (!user) {
       return res.send("No such user exist");
     }
-    res.json(user);
+    res.json({
+      "message" : "User updated successfully",
+      "data" : user
+    });
   } catch (err) {
     res.send("Some error occured while updating user details " + err.message);
   }

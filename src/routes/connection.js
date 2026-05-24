@@ -102,7 +102,7 @@ connection.get("/view/requests", userAuth, async (req, res)=>{
         const connections = await Connection.find({
             toUserId : loggedInUser._id,
             status : "interested"
-        }).populate("fromUserId", ["firstName", "lastName", "age", "skills", "photoUrl"]);
+        }).populate("fromUserId", ["firstName", "lastName", "age", "skills", "photoUrl", "about"]);
 
         res.status(200).json({
             message : "All the request fetched",
@@ -127,8 +127,8 @@ connection.get("/connections", userAuth, async (req, res)=>{
                 {toUserId : loggedInUserId , status : "accepted"},
                 {fromUserId : loggedInUserId , status : "accepted"}
             ]
-        }).populate("fromUserId",  ["firstName", "lastName", "age", "skills", "photoUrl"])
-        .populate("toUserId",  ["firstName", "lastName", "age", "skills", "photoUrl"]);
+        }).populate("fromUserId",  ["firstName", "lastName", "age", "skills", "photoUrl", "about"])
+        .populate("toUserId",  ["firstName", "lastName", "age", "skills", "photoUrl", "about"]);
 
         const filteredData = data.map((row)=>{
             if(row.toUserId._id.toString() === loggedInUserId.toString()){

@@ -42,10 +42,11 @@ connection.post("/request/:status/:toUserId", userAuth, async (req, res) => {
         const connection = new Connection({
             fromUserId, toUserId, status
         })
-        await connection.save();
+        data = await connection.save();
 
         res.json({
-            'message' : 'connection sent successfully'
+            'message' : 'connection sent successfully',
+            'data' : data
         })
         //connection already exist 
     }catch(err){

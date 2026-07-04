@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Version control
+.git/
+.gitignore
+
+# IDE config files
+.editorconfig
+.vscode/
+
+# Docker related files
+Dockerfile
+.dockerignore
+
+# Debug & Error logs
+npm-debug.log
+yarn-error.log
+
+# Environment File
+.env

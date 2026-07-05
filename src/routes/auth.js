@@ -71,7 +71,7 @@ authRouter.get("/auth/callback", async(req, res)=>{
         code : authorization_code,
         client_id : process.env.GOOGLE_CLIENT_ID,
         client_secret : process.env.GOOGLE_CLIENT_SECRET,
-        redirect_uri : "http://localhost:3000/auth/callback",
+        redirect_uri : process.env.BACKEND_URL+"/auth/callback",
         grant_type : "authorization_code"
       })
     })
@@ -105,7 +105,7 @@ authRouter.get("/auth/callback", async(req, res)=>{
       httpOnly : true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax"
-    }).redirect("http://localhost:4200/feed");
+    }).redirect( process.env.FRONTEND_URL + "/feed");
 
   }catch(err){
     res.status(500).send({

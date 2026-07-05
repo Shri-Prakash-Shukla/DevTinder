@@ -37,12 +37,10 @@ const userSchema = new mongoose.Schema(
     age: {
       type: Number,
       min: 18,
-      required : true,
     },
     gender: {
       type: String,
       lowercase: true,
-      required : true,
       validate: function (value) {
         if (!["male", "female", "others"].includes(value)) return false;
       },

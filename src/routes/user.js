@@ -8,8 +8,10 @@ const bcrypt = require("bcrypt");
 userRouter.get("/user", userAuth, async (req, res) => {
   try {
     const user = req.user;
-
-    return res.send(user);
+    return res.send({
+      "message" : "Logged in successfully",
+      "data" : user
+    });
   } catch (err) {
     res
       .status(400)

@@ -6,6 +6,7 @@ const User = require("./models/user.js")
 const userAuth = require("./middlewares/authentication")
 const authRouter = require("./routes/auth.js")
 const userRouter = require("./routes/user.js")
+const paymentRouter = require("./routes/payment.js")
 const connectionRouter = require("./routes/connection.js")
 
 const app = express();
@@ -14,29 +15,11 @@ const app = express();
 // every request will go thrugh it
 app.use(express.json());
 app.use(cookieParser());
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "http://localhost:4200"); 
-//   res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
-//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
-//   res.header("Access-Control-Allow-Credentials", "true"); 
 
-//   if (req.method === "OPTIONS") {
-//     return res.status(200).end();
-//   }
-//   next();
-// });
 app.use("/", authRouter);
 app.use("/", userRouter);
 app.use("/",connectionRouter);
-
-
-app.get("/stream",(req,res)=>{
-  res.setHeader("Content-Type","text/event-stream");
-  let i=0;
-  setInterval(()=>{
-    res.write(`data: Hello ${i++}\n\n`)
-  },1000)
-})
+app.use("/", paymentRouter);
 
 app.get("/", (req, resp) => {
   resp.send("Welcome to our website");

@@ -8,11 +8,14 @@ const authRouter = require("./routes/auth.js")
 const userRouter = require("./routes/user.js")
 const paymentRouter = require("./routes/payment.js")
 const connectionRouter = require("./routes/connection.js")
+const http = require("http");
+const  { initializeSocket } = require("./middlewares/chat.js")
 
 const app = express();
+const server = http.createServer(app);
 
-//middleware to convert req.body from json to js object , since it has not route and .use() is being used
-// every request will go thrugh it
+initializeSocket(server)
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -28,7 +31,7 @@ app.get("/", (req, resp) => {
 connectDB()
   .then(() => {
     console.log("Database connection established successfully");
-    app.listen(3000, () => {
+    server.listen(3000, () => {
       console.log("Server Started Successfully, and listening to port 3000");
     });
   })
